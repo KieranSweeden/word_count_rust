@@ -5,7 +5,6 @@ fn main() {
 
     loop {
         let file_path_string = prompt_user_for_file_path();
-        println!("You've provided the path of {}", file_path_string);
 
         let file_path = path::Path::new(&file_path_string);
         let file_path_is_valid = validate_file_path(&file_path);
@@ -17,8 +16,18 @@ fn main() {
 
         let file_contents = get_file_contents(&file_path);
 
-        println!("{}", &file_contents);
+        let word_count = calculate_word_count_within_string(&file_contents);
+
+        println!(
+            "The word count for the file at path '{}' is {}",
+            &file_path.display(),
+            &word_count
+        );
     }
+}
+
+fn calculate_word_count_within_string(file_contents: &String) -> i32 {
+    file_contents.split_whitespace().count() as i32
 }
 
 fn get_file_contents(file_path: &path::Path) -> String {
