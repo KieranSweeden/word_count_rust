@@ -1,12 +1,24 @@
-use std::io;
+use std::{io, path};
 
 fn main() {
     intro();
 
     loop {
-        let path = prompt_user_for_file_path();
-        println!("You've provided the path of {}", path);
+        let file_path_string = prompt_user_for_file_path();
+        println!("You've provided the path of {}", file_path_string);
+
+        let file_path = path::Path::new(&file_path_string);
+        let file_path_is_valid = validate_file_path(&file_path);
+
+        if !file_path_is_valid {
+            println!("{} is not a valid file path.", &file_path.display());
+            continue;
+        }
     }
+}
+
+fn validate_file_path(file_path: &path::Path) -> bool {
+    file_path.is_file()
 }
 
 fn prompt_user_for_file_path() -> String {
