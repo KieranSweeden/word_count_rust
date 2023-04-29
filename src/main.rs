@@ -14,9 +14,7 @@ fn main() {
             continue;
         }
 
-        let file_contents = get_file_contents(&file_path);
-
-        let word_count = calculate_word_count_within_string(&file_contents);
+        let word_count = get_word_count_for_file(&file_path);
 
         println!(
             "The word count for the file at path '{}' is {}",
@@ -24,6 +22,11 @@ fn main() {
             &word_count
         );
     }
+}
+
+fn get_word_count_for_file(file_path: &path::Path) -> i32 {
+    let file_contents_string = get_file_contents(file_path);
+    calculate_word_count_within_string(&file_contents_string)
 }
 
 fn calculate_word_count_within_string(file_contents: &String) -> i32 {
@@ -57,4 +60,27 @@ fn intro() {
     println!("=====================");
     println!("Welcome to word count");
     println!("=====================");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_word_count_calculation() {
+        assert_eq!(
+            get_word_count_for_file(path::Path::new("./src/files/fifty.txt")),
+            50
+        );
+
+        assert_eq!(
+            get_word_count_for_file(path::Path::new("./src/files/two_hundred_and_fifty.txt")),
+            250
+        );
+
+        assert_eq!(
+            get_word_count_for_file(path::Path::new("./src/files/one_thousand.txt")),
+            1000
+        );
+    }
 }
