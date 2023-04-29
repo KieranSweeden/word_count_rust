@@ -1,4 +1,4 @@
-use std::{io, path};
+use std::{fs, io, path};
 
 fn main() {
     intro();
@@ -14,7 +14,18 @@ fn main() {
             println!("{} is not a valid file path.", &file_path.display());
             continue;
         }
+
+        let file_contents = get_file_contents(&file_path);
+
+        println!("{}", &file_contents);
     }
+}
+
+fn get_file_contents(file_path: &path::Path) -> String {
+    let file_contents = fs::read_to_string(file_path)
+        .expect("Something went wrong whilst attempting to read the file");
+
+    file_contents
 }
 
 fn validate_file_path(file_path: &path::Path) -> bool {
